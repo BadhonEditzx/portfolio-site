@@ -5,159 +5,117 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MD Badhon - Animated Portfolio</title>
 <style>
-  /* Reset & basics */
-  * {
-    box-sizing: border-box;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
   body, html {
     margin: 0; padding: 0; height: 100%;
-    overflow-x: hidden;
-    font-family: 'Poppins', sans-serif;
     background: #0d0d2b;
-    color: white;
+    color: #eee;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
   }
-
-  /* Canvas full screen for particles */
   #particles {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
+    width: 100%; height: 100%;
+    top: 0; left: 0;
     z-index: 0;
   }
-
-  /* Container for content */
   .container {
     position: relative;
     z-index: 10;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 20px;
+    padding: 0 20px;
   }
-
-  /* Floating circles background */
   .floating-circle {
     position: absolute;
     border-radius: 50%;
-    opacity: 0.15;
-    animation: floatUpDown 6s ease-in-out infinite;
+    opacity: 0.12;
     background: radial-gradient(circle at center, #6a11cb 0%, #2575fc 80%);
     box-shadow: 0 0 20px #2575fc;
+    animation: float 6s ease-in-out infinite;
   }
-
-  .circle1 {
-    width: 120px; height: 120px;
-    top: 10%;
-    left: 15%;
-    animation-delay: 0s;
-  }
-  .circle2 {
-    width: 80px; height: 80px;
-    top: 70%;
-    left: 70%;
-    animation-delay: 2s;
-  }
-  .circle3 {
-    width: 60px; height: 60px;
-    top: 50%;
-    left: 30%;
-    animation-delay: 4s;
-  }
-
-  @keyframes floatUpDown {
+  .circle1 { width: 130px; height: 130px; top: 15%; left: 20%; animation-delay: 0s; }
+  .circle2 { width: 80px; height: 80px; top: 65%; left: 70%; animation-delay: 3s; }
+  .circle3 { width: 60px; height: 60px; top: 45%; left: 30%; animation-delay: 1.5s; }
+  @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-25px); }
+    50% { transform: translateY(-30px); }
   }
-
-  /* Animated typing text */
   .typing-text {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 700;
-    color: #ffffff;
+    color: #fff;
     border-right: 4px solid #2575fc;
     white-space: nowrap;
     overflow: hidden;
     width: 0;
-    animation: typing 4s steps(20) forwards, blink 0.8s infinite;
+    animation: typing 4s steps(20) forwards, blink 1s step-end infinite;
     margin-bottom: 20px;
   }
-
   @keyframes typing {
-    from { width: 0 }
-    to { width: 18ch }
+    from { width: 0; }
+    to { width: 18ch; }
   }
-
   @keyframes blink {
-    50% { border-color: transparent }
+    50% { border-color: transparent; }
   }
-
-  /* Subtitle fadeIn */
   .subtitle {
     font-size: 1.3rem;
-    font-weight: 400;
-    margin-bottom: 40px;
     opacity: 0;
-    animation: fadeIn 2s ease forwards;
+    animation: fadeIn 2s forwards;
     animation-delay: 4s;
+    margin-bottom: 40px;
   }
-
   @keyframes fadeIn {
-    to { opacity: 1 }
+    to { opacity: 1; }
   }
-
-  /* Buttons */
   .buttons {
     display: flex;
     gap: 25px;
     opacity: 0;
-    animation: fadeIn 2s ease forwards;
+    animation: fadeIn 2s forwards;
     animation-delay: 5s;
   }
-
   .btn {
-    padding: 15px 35px;
+    padding: 14px 36px;
     font-weight: 600;
     font-size: 1.1rem;
     border-radius: 40px;
     border: 2px solid #2575fc;
-    color: #2575fc;
     background: transparent;
+    color: #2575fc;
     cursor: pointer;
-    transition: all 0.3s ease;
     text-decoration: none;
+    transition: 0.3s ease;
   }
-
   .btn:hover {
     background: #2575fc;
     color: white;
-    transform: scale(1.1) rotate(-3deg);
+    transform: scale(1.1) rotate(-4deg);
     box-shadow: 0 0 15px #2575fc;
   }
-
-  /* Footer */
   footer {
     position: fixed;
-    bottom: 15px;
+    bottom: 10px;
     width: 100%;
     text-align: center;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: rgba(255,255,255,0.3);
   }
 </style>
 </head>
 <body>
 
-<!-- Particles canvas -->
 <canvas id="particles"></canvas>
 
-<!-- Floating circles -->
 <div class="floating-circle circle1"></div>
 <div class="floating-circle circle2"></div>
 <div class="floating-circle circle3"></div>
 
-<!-- Main content -->
 <div class="container">
   <div class="typing-text">Hi, I'm MD Badhon</div>
   <div class="subtitle">Welcome to my animated portfolio</div>
@@ -168,75 +126,71 @@
   </div>
 </div>
 
+<footer>© 2025 MD Badhon</footer>
+
 <script>
-// Simple particles effect - inspired by canvas particles
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let particlesArray = [];
 
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-
-let width, height;
-let particlesArray;
-
-function init() {
-  resize();
-  particlesArray = [];
-  const numberOfParticles = Math.floor(width * height / 7000);
-  for(let i=0; i < numberOfParticles; i++) {
-    particlesArray.push(new Particle());
+  function init() {
+    resize();
+    particlesArray = [];
+    const numberOfParticles = Math.floor(width * height / 6000);
+    for (let i = 0; i < numberOfParticles; i++) {
+      particlesArray.push(new Particle());
+    }
+    animate();
   }
-  animate();
-}
 
-function resize() {
-  width = window.innerWidth;
-  height = window.innerHeight;
-  canvas.width = width;
-  canvas.height = height;
-}
-
-class Particle {
-  constructor() {
-    this.x = Math.random()*width;
-    this.y = Math.random()*height;
-    this.size = Math.random()*3 + 1;
-    this.speedX = (Math.random() - 0.5) * 0.6;
-    this.speedY = (Math.random() - 0.5) * 0.6;
-    this.color = 'rgba(255, 255, 255, 0.4)';
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
   }
-  update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
 
-    // Bounce from edges
-    if (this.x < 0 || this.x > width) this.speedX *= -1;
-    if (this.y < 0 || this.y > height) this.speedY *= -1;
+  class Particle {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.size = Math.random() * 3 + 1;
+      this.speedX = (Math.random() - 0.5) * 0.7;
+      this.speedY = (Math.random() - 0.5) * 0.7;
+      this.color = 'rgba(255, 255, 255, 0.3)';
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      if (this.x < 0 || this.x > width) this.speedX *= -1;
+      if (this.y < 0 || this.y > height) this.speedY *= -1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = 'white';
+      ctx.shadowBlur = 5;
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
-  draw() {
-    ctx.beginPath();
-    ctx.fillStyle = this.color;
-    ctx.shadowColor = 'white';
-    ctx.shadowBlur = 4;
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
 
-function animate() {
-  ctx.clearRect(0,0,width,height);
-  particlesArray.forEach(p => {
-    p.update();
-    p.draw();
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    particlesArray.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('resize', () => {
+    resize();
+    init();
   });
-  requestAnimationFrame(animate);
-}
 
-window.addEventListener('resize', () => {
-  resize();
-  particlesArray = [];
   init();
-});
-
-init();
 </script>
 
 </body>
