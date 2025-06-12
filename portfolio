@@ -1,0 +1,7 @@
+git clone https://github.com/YOUR_USERNAME/portfolio-site.git
+cd portfolio-site
+# Create app/page.tsx (or index.html) with the code I provided
+# Also add package.json, Tailwind config, etc.
+git add .
+git commit -m "Add animated portfolio code"
+git push origin main
