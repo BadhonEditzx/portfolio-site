@@ -1,81 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MD Badhon Portfolio</title>
-  <style>
-    /* Simple animated style */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-      color: white;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      min-height: 100vh;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      animation: bgAnimation 15s ease infinite;
-      text-align: center;
-    }
-    @keyframes bgAnimation {
-      0%, 100% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-    }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 0.3em;
-      animation: fadeInDown 1.5s ease forwards;
-      opacity: 0;
-    }
-    p {
-      font-size: 1.25rem;
-      margin-top: 0;
-      margin-bottom: 1.5em;
-      animation: fadeInUp 1.5s ease forwards;
-      opacity: 0;
-    }
-    a {
-      color: #fff;
-      text-decoration: none;
-      border: 2px solid white;
-      padding: 0.5em 1.5em;
-      border-radius: 30px;
-      margin: 0 0.5em;
-      display: inline-block;
-      font-weight: 600;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    a:hover {
-      background-color: white;
-      color: #2575fc;
-    }
-    footer {
-      margin-top: 3em;
-      font-size: 0.9rem;
-      opacity: 0.7;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MD Badhon - Animated Portfolio</title>
+<style>
+  /* Reset & basics */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
+    background: #0d0d2b;
+    color: white;
+  }
 
-    @keyframes fadeInDown {
-      0% {opacity: 0; transform: translateY(-20px);}
-      100% {opacity: 1; transform: translateY(0);}
-    }
-    @keyframes fadeInUp {
-      0% {opacity: 0; transform: translateY(20px);}
-      100% {opacity: 1; transform: translateY(0);}
-    }
-  </style>
+  /* Canvas full screen for particles */
+  #particles {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+  }
+
+  /* Container for content */
+  .container {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  /* Floating circles background */
+  .floating-circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.15;
+    animation: floatUpDown 6s ease-in-out infinite;
+    background: radial-gradient(circle at center, #6a11cb 0%, #2575fc 80%);
+    box-shadow: 0 0 20px #2575fc;
+  }
+
+  .circle1 {
+    width: 120px; height: 120px;
+    top: 10%;
+    left: 15%;
+    animation-delay: 0s;
+  }
+  .circle2 {
+    width: 80px; height: 80px;
+    top: 70%;
+    left: 70%;
+    animation-delay: 2s;
+  }
+  .circle3 {
+    width: 60px; height: 60px;
+    top: 50%;
+    left: 30%;
+    animation-delay: 4s;
+  }
+
+  @keyframes floatUpDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-25px); }
+  }
+
+  /* Animated typing text */
+  .typing-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    border-right: 4px solid #2575fc;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    animation: typing 4s steps(20) forwards, blink 0.8s infinite;
+    margin-bottom: 20px;
+  }
+
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 18ch }
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent }
+  }
+
+  /* Subtitle fadeIn */
+  .subtitle {
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+    animation-delay: 4s;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1 }
+  }
+
+  /* Buttons */
+  .buttons {
+    display: flex;
+    gap: 25px;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+    animation-delay: 5s;
+  }
+
+  .btn {
+    padding: 15px 35px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 40px;
+    border: 2px solid #2575fc;
+    color: #2575fc;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    background: #2575fc;
+    color: white;
+    transform: scale(1.1) rotate(-3deg);
+    box-shadow: 0 0 15px #2575fc;
+  }
+
+  /* Footer */
+  footer {
+    position: fixed;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.3);
+  }
+</style>
 </head>
 <body>
-  <h1>MD Badhon</h1>
-  <p>Welcome to my portfolio website!</p>
-  <p>Email: <a href="mailto:bdnemesisgaming@gmail.com">bdnemesisgaming@gmail.com</a></p>
-  <div>
-    <a href="https://instagram.com/badhoneditzx01" target="_blank" rel="noopener noreferrer">Instagram</a>
-    <a href="https://youtube.com/@badhoneditzx6t9" target="_blank" rel="noopener noreferrer">YouTube</a>
+
+<!-- Particles canvas -->
+<canvas id="particles"></canvas>
+
+<!-- Floating circles -->
+<div class="floating-circle circle1"></div>
+<div class="floating-circle circle2"></div>
+<div class="floating-circle circle3"></div>
+
+<!-- Main content -->
+<div class="container">
+  <div class="typing-text">Hi, I'm MD Badhon</div>
+  <div class="subtitle">Welcome to my animated portfolio</div>
+  <div class="buttons">
+    <a href="mailto:bdnemesisgaming@gmail.com" class="btn">Email Me</a>
+    <a href="https://instagram.com/badhoneditzx01" target="_blank" rel="noopener" class="btn">Instagram</a>
+    <a href="https://youtube.com/@badhoneditzx6t9" target="_blank" rel="noopener" class="btn">YouTube</a>
   </div>
-  <footer>© 2025 MD Badhon</footer>
+</div>
+
+<script>
+// Simple particles effect - inspired by canvas particles
+
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+
+let width, height;
+let particlesArray;
+
+function init() {
+  resize();
+  particlesArray = [];
+  const numberOfParticles = Math.floor(width * height / 7000);
+  for(let i=0; i < numberOfParticles; i++) {
+    particlesArray.push(new Particle());
+  }
+  animate();
+}
+
+function resize() {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+}
+
+class Particle {
+  constructor() {
+    this.x = Math.random()*width;
+    this.y = Math.random()*height;
+    this.size = Math.random()*3 + 1;
+    this.speedX = (Math.random() - 0.5) * 0.6;
+    this.speedY = (Math.random() - 0.5) * 0.6;
+    this.color = 'rgba(255, 255, 255, 0.4)';
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    // Bounce from edges
+    if (this.x < 0 || this.x > width) this.speedX *= -1;
+    if (this.y < 0 || this.y > height) this.speedY *= -1;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.fillStyle = this.color;
+    ctx.shadowColor = 'white';
+    ctx.shadowBlur = 4;
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function animate() {
+  ctx.clearRect(0,0,width,height);
+  particlesArray.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animate);
+}
+
+window.addEventListener('resize', () => {
+  resize();
+  particlesArray = [];
+  init();
+});
+
+init();
+</script>
+
 </body>
 </html>
